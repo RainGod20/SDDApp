@@ -1,0 +1,57 @@
+import 'package:clock_app_flutter/constants.dart';
+import 'package:clock_app_flutter/screens/time_in_hour_and_minute.dart';
+import 'package:clock_app_flutter/size_config.dart';
+import 'package:flutter/material.dart';
+
+class Body extends StatelessWidget {
+  const Body({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: double.infinity,
+      child: Column(
+        children: [
+          Text(
+            "Newport Beach, USA | PST",
+            style: Theme.of(context).textTheme.bodyLarge,
+          ),
+          TimeInHourAndMinute(),
+          Clock(),
+        ],
+      ),
+    );
+  }
+}
+
+class Clock extends StatefulWidget {
+  const Clock({super.key});
+
+  @override
+  State<Clock> createState() => _ClockState();
+}
+
+class _ClockState extends State<Clock> {
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
+      child: AspectRatio(
+        aspectRatio: 1,
+        child: Container(
+          decoration: BoxDecoration(
+            color: Theme.of(context).colorScheme.surface,
+            shape: BoxShape.circle,
+            boxShadow: [
+              BoxShadow(
+                offset: Offset(0, 0),
+                color: kShadowColor.withOpacity(0.14),
+                blurRadius: 64,
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
