@@ -9,7 +9,6 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     data = ModalRoute.of(context)?.settings.arguments as Map?;
-    print(data);
 
     SizeConfig().init(context);
     return Scaffold(

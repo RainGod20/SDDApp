@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:intl/intl.dart';
 import 'package:clock_app_flutter/size_config.dart';
 import 'package:flutter/material.dart';
+import 'package:timezone/timezone.dart' as tz;
+import 'package:timezone/data/latest_all.dart' as tz;
 
 class TimeInHourAndMinute extends StatefulWidget {
   const TimeInHourAndMinute({super.key});
@@ -12,26 +14,26 @@ class TimeInHourAndMinute extends StatefulWidget {
 }
 
 class _TimeInHourAndMinuteState extends State<TimeInHourAndMinute> {
-  TimeOfDay _timeOfDay = TimeOfDay.now();
-
   @override
   void initState() {
     super.initState();
     Timer.periodic(Duration(seconds: 1), (timer) {
-      if (_timeOfDay.minute != TimeOfDay.now().minute) {
-        setState(() {
-          _timeOfDay = TimeOfDay.now();
-        });
-      }
+      setState(() {});
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    tz.initializeTimeZones();
     var now = DateTime.now();
+    var detroitNow = tz.TZDateTime.now(tz.getLocation('America/Detroit'));
+    print(detroitNow.timeZone);
+
     var formattedTime = DateFormat('hh:mm').format(now);
 
-    String _period = _timeOfDay.period == DayPeriod.am ? "AM" : "PM";
+    // String _period = _timeOfDay.period == DayPeriod.am ? "AM" : "PM";
+    String _period = DateFormat('a').format(now);
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [

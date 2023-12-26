@@ -14,14 +14,19 @@ class LoadingScreen extends StatefulWidget {
 
 class _LoadingScreenState extends State<LoadingScreen> {
   void setupWorldTime() async {
-    WorldTime instance =
-        WorldTime(location: 'Berlin', flag: 'germany.png', url: 'Europe/Berlin');
+    print("got to setupWorldTime");
+    WorldTime instance = WorldTime(flag: 'germany.png', url: 'Europe/Berlin');
+    print("started instance.getTime()");
     await instance.getTime();
+    print("Finished instance.getTime()");
     Navigator.pushReplacementNamed(context, '/home', arguments: {
-      'location': instance.location,
+      'countryAndCity': instance.countryAndCity,
+      'offsetAndAbbrev': instance.offsetAndAbbrev,
       'flag': instance.flag,
       'time': instance.time,
+      'period': instance.period,
     });
+    print("finished setupWorldTime");
   }
 
   @override

@@ -1,3 +1,4 @@
+import 'package:clock_app_flutter/screens/services/world_time.dart';
 import 'package:flutter/material.dart';
 
 class LocationScreen extends StatelessWidget {
@@ -9,7 +10,7 @@ class LocationScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text(
           "Location Choose Page",
-          style: Theme.of(context).textTheme.displayLarge,
+          style: Theme.of(context).textTheme.bodyLarge,
         ),
         centerTitle: true,
       ),
