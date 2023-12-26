@@ -5,6 +5,7 @@ import 'package:clock_app_flutter/size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/data/latest_all.dart' as tz;
+import 'package:timezone/src/location.dart';
 
 class TimeInHourAndMinute extends StatefulWidget {
   const TimeInHourAndMinute({super.key});
@@ -27,7 +28,7 @@ class _TimeInHourAndMinuteState extends State<TimeInHourAndMinute> {
     tz.initializeTimeZones();
     var now = DateTime.now();
     var detroitNow = tz.TZDateTime.now(tz.getLocation('America/Detroit'));
-    print(detroitNow.timeZone);
+    Map<String, Location> locationNames = tz.timeZoneDatabase.locations;
 
     var formattedTime = DateFormat('hh:mm').format(now);
 

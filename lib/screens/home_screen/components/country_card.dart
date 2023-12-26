@@ -18,6 +18,8 @@ class UpdateCountryCard extends StatefulWidget {
 }
 
 class Update_CountryCardState extends State<UpdateCountryCard> {
+  String location = "America/Detroit";
+
   @override
   void initState() {
     super.initState();
@@ -28,9 +30,9 @@ class Update_CountryCardState extends State<UpdateCountryCard> {
 
   @override
   Widget build(BuildContext context) {
+    // Timezone calculations
     tz.initializeTimeZones();
-    var detroit = tz.getLocation('America/Detroit');
-    var detroitNow = tz.TZDateTime.now(detroit);
+    var detroitNow = tz.TZDateTime.now(tz.getLocation(location));
 
     // countryTime = setupCountryTime(countryTime) as List<String>;
     return Padding(
@@ -58,7 +60,7 @@ class Update_CountryCardState extends State<UpdateCountryCard> {
                       ?.copyWith(fontSize: getProportionateScreenWidth(16)),
                 ),
                 SizedBox(height: 5),
-                Text(detroitNow.timeZoneOffset.toString()),
+                Text(detroitNow.timeZoneOffset.toString().split('.').first.padLeft(8, "0")),
                 Spacer(),
                 Row(
                   children: [
@@ -70,7 +72,7 @@ class Update_CountryCardState extends State<UpdateCountryCard> {
                     Flag.fromCode(
                       FlagsCode.US,
                       width: getProportionateScreenWidth(40),
-                      height: 64,
+                      height: getProportionateScreenHeight(35),
                     ),
                     Spacer(),
                     Text(
