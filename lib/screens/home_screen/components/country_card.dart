@@ -31,6 +31,7 @@ class Update_CountryCardState extends State<UpdateCountryCard> {
   late tz.Location locationName;
   late String locationString;
   late String locationOffset;
+  late Timer _timer;
 
   @override
   void initState() {
@@ -38,9 +39,15 @@ class Update_CountryCardState extends State<UpdateCountryCard> {
     locationName = widget.locationName;
     locationString = widget.locationString;
     locationOffset = widget.locationOffset;
-    Timer.periodic(Duration(seconds: 1), (timer) {
+    _timer = new Timer.periodic(Duration(seconds: 1), (timer) {
       setState(() {});
     });
+  }
+
+  @override
+  void dispose() {
+    _timer.cancel();
+    super.dispose();
   }
 
   @override

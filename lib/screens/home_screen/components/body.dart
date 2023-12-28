@@ -13,6 +13,22 @@ import 'package:timezone/data/latest_all.dart' as tz;
 
 class Body extends StatefulWidget {
   Map? data;
+  List<Widget> countryCards = [
+    UpdateCountryCard(
+      locationName: tz.getLocation("America/Chicago"),
+      locationString:
+          "Chicago, America | ${tz.TZDateTime.now(tz.getLocation("America/Chicago")).timeZoneName}",
+      locationOffset:
+          'UTC ${tz.TZDateTime.now(tz.getLocation("America/Chicago")).timeZoneOffset.isNegative ? "-" : "+"}${tz.TZDateTime.now(tz.getLocation("America/Chicago")).timeZoneOffset.inHours.abs() >= 10 ? '${tz.TZDateTime.now(tz.getLocation("America/Chicago")).timeZoneOffset.inHours.abs()}' : '0${tz.TZDateTime.now(tz.getLocation("America/Chicago")).timeZoneOffset.inHours.abs()}'}:${tz.TZDateTime.now(tz.getLocation("America/Chicago")).timeZoneOffset.inMinutes.remainder(60).abs().toInt() >= 10 ? '${tz.TZDateTime.now(tz.getLocation("America/Chicago")).timeZoneOffset.inMinutes.remainder(60).abs().toInt()}' : '0${tz.TZDateTime.now(tz.getLocation("America/Chicago")).timeZoneOffset.inMinutes.remainder(60).abs().toInt()}'}',
+    ),
+    UpdateCountryCard(
+      locationName: tz.getLocation("Australia/Sydney"),
+      locationString:
+          "Sydney, Australia | ${tz.TZDateTime.now(tz.getLocation("Australia/Sydney")).timeZoneName}",
+      locationOffset:
+          'UTC ${tz.TZDateTime.now(tz.getLocation("Australia/Sydney")).timeZoneOffset.isNegative ? "-" : "+"}${tz.TZDateTime.now(tz.getLocation("Australia/Sydney")).timeZoneOffset.inHours.abs() >= 10 ? '${tz.TZDateTime.now(tz.getLocation("Australia/Sydney")).timeZoneOffset.inHours.abs()}' : '0${tz.TZDateTime.now(tz.getLocation("Australia/Sydney")).timeZoneOffset.inHours.abs()}'}:${tz.TZDateTime.now(tz.getLocation("Australia/Sydney")).timeZoneOffset.inMinutes.remainder(60).abs().toInt() >= 10 ? '${tz.TZDateTime.now(tz.getLocation("Australia/Sydney")).timeZoneOffset.inMinutes.remainder(60).abs().toInt()}' : '0${tz.TZDateTime.now(tz.getLocation("Australia/Sydney")).timeZoneOffset.inMinutes.remainder(60).abs().toInt()}'}',
+    )
+  ];
 
   Body({
     super.key,
@@ -80,39 +96,16 @@ class _BodyState extends State<Body> {
     } while (userAcceptedLocationPerms && maxTries > 0);
   }
 
-  List<Widget> countryCards = [];
-  List<List> newLocations = [
-    [
-      tz.getLocation("America/Chicago"),
-      "Chicago, America | ${tz.TZDateTime.now(tz.getLocation("America/Chicago")).timeZoneName}",
-      'UTC ${tz.TZDateTime.now(tz.getLocation("America/Chicago")).timeZoneOffset.isNegative ? "-" : "+"}${tz.TZDateTime.now(tz.getLocation("America/Chicago")).timeZoneOffset.inHours.abs() >= 10 ? '${tz.TZDateTime.now(tz.getLocation("America/Chicago")).timeZoneOffset.inHours.abs()}' : '0${tz.TZDateTime.now(tz.getLocation("America/Chicago")).timeZoneOffset.inHours.abs()}'}:${tz.TZDateTime.now(tz.getLocation("America/Chicago")).timeZoneOffset.inMinutes.remainder(60).abs().toInt() >= 10 ? '${tz.TZDateTime.now(tz.getLocation("America/Chicago")).timeZoneOffset.inMinutes.remainder(60).abs().toInt()}' : '0${tz.TZDateTime.now(tz.getLocation("America/Chicago")).timeZoneOffset.inMinutes.remainder(60).abs().toInt()}'}'
-    ],
-    [
-      tz.getLocation("Australia/Sydney"),
-      "Sydney, Australia | ${tz.TZDateTime.now(tz.getLocation("Australia/Sydney")).timeZoneName}",
-      'UTC ${tz.TZDateTime.now(tz.getLocation("Australia/Sydney")).timeZoneOffset.isNegative ? "-" : "+"}${tz.TZDateTime.now(tz.getLocation("Australia/Sydney")).timeZoneOffset.inHours.abs() >= 10 ? '${tz.TZDateTime.now(tz.getLocation("Australia/Sydney")).timeZoneOffset.inHours.abs()}' : '0${tz.TZDateTime.now(tz.getLocation("Australia/Sydney")).timeZoneOffset.inHours.abs()}'}:${tz.TZDateTime.now(tz.getLocation("Australia/Sydney")).timeZoneOffset.inMinutes.remainder(60).abs().toInt() >= 10 ? '${tz.TZDateTime.now(tz.getLocation("Australia/Sydney")).timeZoneOffset.inMinutes.remainder(60).abs().toInt()}' : '0${tz.TZDateTime.now(tz.getLocation("Australia/Sydney")).timeZoneOffset.inMinutes.remainder(60).abs().toInt()}'}'
-    ],
-  ];
-
   @override
   void initState() {
     super.initState();
     getCurrLocation();
     if (widget.data != null) {
-      newLocations.add([
-        widget.data?['placeLocation'],
-        widget.data?['placeName'],
-        widget.data?['placeUtcOffset']
-      ]);
+      widget.countryCards.add(UpdateCountryCard(
+          locationName: widget.data?['placeLocation'],
+          locationString: widget.data?['placeName'],
+          locationOffset: widget.data?['placeUtcOffset']));
     }
-    for (var location in newLocations) {
-      countryCards.add(UpdateCountryCard(
-        locationName: location[0],
-        locationString: location[1],
-        locationOffset: location[2],
-      ));
-    }
-    newLocations = List.empty();
     setState(() {});
   }
 
@@ -134,7 +127,7 @@ class _BodyState extends State<Body> {
             SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: Row(
-                children: countryCards,
+                children: widget.countryCards,
               ),
             ),
           ],
