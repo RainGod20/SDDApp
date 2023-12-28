@@ -4,5 +4,5 @@ A new Flutter project.
 
 # Things to Add / Things to Fix
  - Country Dividers for the locations choose screen
- - Country Cards
+ - Storage of country cards
  - Delete Country Cards

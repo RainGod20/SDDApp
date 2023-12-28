@@ -8,6 +8,8 @@ import 'package:clock_app_flutter/screens/services/world_time.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:geocoding/geocoding.dart';
+import 'package:timezone/timezone.dart' as tz;
+import 'package:timezone/data/latest_all.dart' as tz;
 
 class Body extends StatefulWidget {
   Map? data;
@@ -79,15 +81,39 @@ class _BodyState extends State<Body> {
   }
 
   List<Widget> countryCards = [];
-  List locations = ["America/Chicago", "Australia/Sydney"];
+  List<List> newLocations = [
+    [
+      tz.getLocation("America/Chicago"),
+      "Chicago, America | ${tz.TZDateTime.now(tz.getLocation("America/Chicago")).timeZoneName}",
+      'UTC ${tz.TZDateTime.now(tz.getLocation("America/Chicago")).timeZoneOffset.isNegative ? "-" : "+"}${tz.TZDateTime.now(tz.getLocation("America/Chicago")).timeZoneOffset.inHours.abs() >= 10 ? '${tz.TZDateTime.now(tz.getLocation("America/Chicago")).timeZoneOffset.inHours.abs()}' : '0${tz.TZDateTime.now(tz.getLocation("America/Chicago")).timeZoneOffset.inHours.abs()}'}:${tz.TZDateTime.now(tz.getLocation("America/Chicago")).timeZoneOffset.inMinutes.remainder(60).abs().toInt() >= 10 ? '${tz.TZDateTime.now(tz.getLocation("America/Chicago")).timeZoneOffset.inMinutes.remainder(60).abs().toInt()}' : '0${tz.TZDateTime.now(tz.getLocation("America/Chicago")).timeZoneOffset.inMinutes.remainder(60).abs().toInt()}'}'
+    ],
+    [
+      tz.getLocation("Australia/Sydney"),
+      "Sydney, Australia | ${tz.TZDateTime.now(tz.getLocation("Australia/Sydney")).timeZoneName}",
+      'UTC ${tz.TZDateTime.now(tz.getLocation("Australia/Sydney")).timeZoneOffset.isNegative ? "-" : "+"}${tz.TZDateTime.now(tz.getLocation("Australia/Sydney")).timeZoneOffset.inHours.abs() >= 10 ? '${tz.TZDateTime.now(tz.getLocation("Australia/Sydney")).timeZoneOffset.inHours.abs()}' : '0${tz.TZDateTime.now(tz.getLocation("Australia/Sydney")).timeZoneOffset.inHours.abs()}'}:${tz.TZDateTime.now(tz.getLocation("Australia/Sydney")).timeZoneOffset.inMinutes.remainder(60).abs().toInt() >= 10 ? '${tz.TZDateTime.now(tz.getLocation("Australia/Sydney")).timeZoneOffset.inMinutes.remainder(60).abs().toInt()}' : '0${tz.TZDateTime.now(tz.getLocation("Australia/Sydney")).timeZoneOffset.inMinutes.remainder(60).abs().toInt()}'}'
+    ],
+  ];
 
   @override
   void initState() {
     super.initState();
     getCurrLocation();
-    for (var location in locations) {
-      countryCards.add(UpdateCountryCard(locationName: location));
+    if (widget.data != null) {
+      newLocations.add([
+        widget.data?['placeLocation'],
+        widget.data?['placeName'],
+        widget.data?['placeUtcOffset']
+      ]);
     }
+    for (var location in newLocations) {
+      countryCards.add(UpdateCountryCard(
+        locationName: location[0],
+        locationString: location[1],
+        locationOffset: location[2],
+      ));
+    }
+    newLocations = List.empty();
+    setState(() {});
   }
 
   @override

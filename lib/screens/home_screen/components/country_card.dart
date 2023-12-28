@@ -8,24 +8,36 @@ import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/data/latest_all.dart' as tz;
+import 'package:timezone_to_country/timezone_to_country.dart';
 
 class UpdateCountryCard extends StatefulWidget {
   const UpdateCountryCard({
     super.key,
     required this.locationName,
+    required this.locationString,
+    required this.locationOffset,
   });
-  final String locationName;
+
+  final tz.Location locationName;
+  final String locationString;
+  final String locationOffset;
 
   @override
   State<UpdateCountryCard> createState() => Update_CountryCardState();
 }
 
 class Update_CountryCardState extends State<UpdateCountryCard> {
-  String location = "America/Detroit";
+  // String location = "America/Detroit";
+  late tz.Location locationName;
+  late String locationString;
+  late String locationOffset;
 
   @override
   void initState() {
     super.initState();
+    locationName = widget.locationName;
+    locationString = widget.locationString;
+    locationOffset = widget.locationOffset;
     Timer.periodic(Duration(seconds: 1), (timer) {
       setState(() {});
     });
@@ -35,7 +47,7 @@ class Update_CountryCardState extends State<UpdateCountryCard> {
   Widget build(BuildContext context) {
     // Timezone calculations
     tz.initializeTimeZones();
-    var detroitNow = tz.TZDateTime.now(tz.getLocation(location));
+    var locationNow = tz.TZDateTime.now(locationName);
 
     // countryTime = setupCountryTime(countryTime) as List<String>;
     return Padding(
@@ -56,14 +68,14 @@ class Update_CountryCardState extends State<UpdateCountryCard> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  detroitNow.timeZoneName,
+                  locationString,
                   style: Theme.of(context)
                       .textTheme
                       .headlineMedium
                       ?.copyWith(fontSize: getProportionateScreenWidth(16)),
                 ),
                 SizedBox(height: 5),
-                Text(detroitNow.timeZoneOffset.toString().split('.').first.padLeft(8, "0")),
+                Text(locationOffset),
                 Spacer(),
                 Row(
                   children: [
@@ -72,19 +84,19 @@ class Update_CountryCardState extends State<UpdateCountryCard> {
                     //   width: getProportionateScreenWidth(40),
                     //   color: Theme.of(context).floatingActionButtonTheme.foregroundColor,
                     // ),
-                    Flag.fromCode(
-                      FlagsCode.US,
-                      width: getProportionateScreenWidth(40),
+                    Flag.fromString(
+                      locationName.countryCode,
                       height: getProportionateScreenHeight(35),
+                      width: getProportionateScreenWidth(40),
                     ),
                     Spacer(),
                     Text(
-                      DateFormat('hh:mm').format(detroitNow),
+                      DateFormat('hh:mm').format(locationNow),
                       style: Theme.of(context).textTheme.headlineMedium,
                     ),
                     RotatedBox(
                       quarterTurns: 3,
-                      child: Text(DateFormat('a').format(detroitNow)),
+                      child: Text(DateFormat('a').format(locationNow)),
                     )
                   ],
                 ),
