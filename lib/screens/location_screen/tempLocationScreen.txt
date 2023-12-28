@@ -1,0 +1,66 @@
+// import 'package:clock_app_flutter/screens/services/world_time.dart';
+// import 'package:flutter/material.dart';
+// import 'package:timezone/timezone.dart' as tz;
+// import 'package:timezone/data/latest.dart' as tz;
+// import 'package:timezone/src/location.dart';
+
+// class LocationScreen extends StatefulWidget {
+//   const LocationScreen({super.key});
+
+//   @override
+//   State<LocationScreen> createState() => _LocationScreenState();
+// }
+
+// class _LocationScreenState extends State<LocationScreen> {
+//   var locationNames = tz.timeZoneDatabase.locations;
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//         title: Text(
+//           "Location Choose Page",
+//           style: Theme.of(context).textTheme.bodyLarge,
+//         ),
+//         centerTitle: true,
+//       ),
+//       body: ListView.builder(
+//         itemCount: 400,
+//         itemBuilder: (context, index) {
+//           return Text(index.toString());
+//         },
+//       ),
+//     );
+//   }
+// }
+
+import 'package:flutter/material.dart';
+import 'package:timezone_button_dropdown/timezone_button_dropdown.dart';
+
+class LocationScreen extends StatefulWidget {
+  const LocationScreen({super.key});
+
+  @override
+  State<LocationScreen> createState() => _LocationScreenState();
+}
+
+class _LocationScreenState extends State<LocationScreen> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          "Choose your location",
+          style: Theme.of(context).textTheme.bodyLarge,
+        ),
+      ),
+      body: Container(
+        child: TimezoneDropdown(
+          selectHint: 'Select Timezone',
+          searchHint: 'Search Timezone',
+          onTimezoneSelected: (timezone) => print(timezone),
+        ),
+      ),
+    );
+  }
+}

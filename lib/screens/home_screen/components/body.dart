@@ -10,7 +10,12 @@ import 'package:geolocator/geolocator.dart';
 import 'package:geocoding/geocoding.dart';
 
 class Body extends StatefulWidget {
-  Body({super.key});
+  Map? data;
+
+  Body({
+    super.key,
+    this.data,
+  });
 
   @override
   State<Body> createState() => _BodyState();
@@ -73,12 +78,16 @@ class _BodyState extends State<Body> {
     } while (userAcceptedLocationPerms && maxTries > 0);
   }
 
-  List locations = ["America/New_York", "Australia/Sydney"];
+  List<Widget> countryCards = [];
+  List locations = ["America/Chicago", "Australia/Sydney"];
 
   @override
   void initState() {
     super.initState();
     getCurrLocation();
+    for (var location in locations) {
+      countryCards.add(UpdateCountryCard(locationName: location));
+    }
   }
 
   @override
@@ -99,26 +108,7 @@ class _BodyState extends State<Body> {
             SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: Row(
-                children: [
-                  UpdateCountryCard(
-                    // country: "Sydney, AU",
-                    // timeZone: "+19 HRS | AEST",
-                    // iconSrc: "assets/icons/Sydney.svg",
-                    // time: "1:20",
-                    // period: "AM",
-                    flag: 'Sydney.png',
-                    url: 'Australia/Sydney',
-                  ),
-                  UpdateCountryCard(
-                    // country: "New York, USA",
-                    // timeZone: "+3 HRS | EST",
-                    // iconSrc: "assets/icons/Liberty.svg",
-                    // time: "9:20",
-                    // period: "PM",
-                    flag: 'New_York.png',
-                    url: 'America/New_York',
-                  ),
-                ],
+                children: countryCards,
               ),
             ),
           ],
