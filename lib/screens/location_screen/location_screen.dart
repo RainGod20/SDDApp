@@ -113,9 +113,8 @@ class _LocationScreenState extends State<LocationScreen> {
             child: ListTile(
               onTap: () {
                 Navigator.pushReplacementNamed(context, '/', arguments: {
-                  'placeLocation':
-                      locations[index].location, // Is of type location (Africa/Accra)
-                  'placeName': locations[index].name, // Is of type string (Alaska, US | AKST)
+                  'placeLocation': locations[index].location,
+                  'placeName': locations[index].name,
                   'placeUtcOffset':
                       'UTC ${tz.TZDateTime.now(locations[index].location).timeZoneOffset.isNegative ? "-" : "+"}${tz.TZDateTime.now(locations[index].location).timeZoneOffset.inHours.abs() >= 10 ? '${tz.TZDateTime.now(locations[index].location).timeZoneOffset.inHours.abs()}' : '0${tz.TZDateTime.now(locations[index].location).timeZoneOffset.inHours.abs()}'}:${tz.TZDateTime.now(locations[index].location).timeZoneOffset.inMinutes.remainder(60).abs().toInt() >= 10 ? '${tz.TZDateTime.now(locations[index].location).timeZoneOffset.inMinutes.remainder(60).abs().toInt()}' : '0${tz.TZDateTime.now(locations[index].location).timeZoneOffset.inMinutes.remainder(60).abs().toInt()}'}',
                 });

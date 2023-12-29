@@ -16,21 +16,23 @@ class UpdateCountryCard extends StatefulWidget {
     required this.locationName,
     required this.locationString,
     required this.locationOffset,
+    required this.cardIndex,
   });
 
   final tz.Location locationName;
   final String locationString;
   final String locationOffset;
+  final int cardIndex;
 
   @override
   State<UpdateCountryCard> createState() => Update_CountryCardState();
 }
 
 class Update_CountryCardState extends State<UpdateCountryCard> {
-  // String location = "America/Detroit";
   late tz.Location locationName;
   late String locationString;
   late String locationOffset;
+  late int cardIndex;
   late Timer _timer;
 
   @override
@@ -39,6 +41,7 @@ class Update_CountryCardState extends State<UpdateCountryCard> {
     locationName = widget.locationName;
     locationString = widget.locationString;
     locationOffset = widget.locationOffset;
+    cardIndex = widget.cardIndex;
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       setState(() {});
     });
@@ -56,165 +59,89 @@ class Update_CountryCardState extends State<UpdateCountryCard> {
     tz.initializeTimeZones();
     var locationNow = tz.TZDateTime.now(locationName);
 
-    // countryTime = setupCountryTime(countryTime) as List<String>;
-    return Padding(
-      padding: EdgeInsets.only(left: getProportionateScreenWidth(20)),
-      child: SizedBox(
-        width: getProportionateScreenWidth(233),
-        child: AspectRatio(
-          aspectRatio: 1.32,
-          child: Container(
-            padding: EdgeInsets.all(getProportionateScreenWidth(20)),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              border: Border.all(
-                color: Theme.of(context).primaryIconTheme.color!,
-              ),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  locationString,
-                  style: Theme.of(context)
-                      .textTheme
-                      .headlineMedium
-                      ?.copyWith(fontSize: getProportionateScreenWidth(16)),
+    return Stack(
+      clipBehavior: Clip.none,
+      children: [
+        Padding(
+          padding: EdgeInsets.only(left: getProportionateScreenWidth(20)),
+          child: SizedBox(
+            width: getProportionateScreenWidth(233),
+            child: AspectRatio(
+              aspectRatio: 1.32,
+              child: Container(
+                padding: EdgeInsets.all(getProportionateScreenWidth(20)),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  border: Border.all(
+                    color: Theme.of(context).primaryIconTheme.color!,
+                  ),
                 ),
-                const SizedBox(height: 5),
-                Text(locationOffset),
-                const Spacer(),
-                Row(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // SvgPicture.asset(
-                    //   Flag.fromCode(FlagsCode.US),
-                    //   width: getProportionateScreenWidth(40),
-                    //   color: Theme.of(context).floatingActionButtonTheme.foregroundColor,
-                    // ),
-                    locationName.toString() == "UTC"
-                        ? const CircleAvatar(
-                            backgroundImage: AssetImage('assets/icons/UTCImage.png'),
-                            radius: 17,
-                          )
-                        : Flag.fromString(
-                            locationName.countryCode,
-                            height: getProportionateScreenHeight(35),
-                            width: getProportionateScreenWidth(40),
-                          ),
-                    const Spacer(),
                     Text(
-                      DateFormat('hh:mm').format(locationNow),
-                      style: Theme.of(context).textTheme.headlineMedium,
+                      locationString,
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 2,
+                      style: Theme.of(context)
+                          .textTheme
+                          .headlineMedium
+                          ?.copyWith(fontSize: getProportionateScreenWidth(16)),
                     ),
-                    RotatedBox(
-                      quarterTurns: 3,
-                      child: Text(DateFormat('a').format(locationNow)),
-                    )
+                    const SizedBox(height: 5),
+                    Text(locationOffset),
+                    const Spacer(),
+                    Row(
+                      children: [
+                        locationName.toString() == "UTC"
+                            ? const CircleAvatar(
+                                backgroundImage: AssetImage('assets/icons/UTCImage.png'),
+                                radius: 17,
+                              )
+                            : Flag.fromString(
+                                locationName.countryCode,
+                                height: getProportionateScreenHeight(35),
+                                width: getProportionateScreenWidth(40),
+                              ),
+                        const Spacer(),
+                        Text(
+                          DateFormat('hh:mm').format(locationNow),
+                          style: Theme.of(context).textTheme.headlineMedium,
+                        ),
+                        RotatedBox(
+                          quarterTurns: 3,
+                          child: Text(DateFormat('a').format(locationNow)),
+                        )
+                      ],
+                    ),
                   ],
                 ),
-              ],
+              ),
             ),
           ),
         ),
-      ),
+        Positioned(
+          top: 0,
+          right: 0,
+          child: InkWell(
+            onTap: () {
+              Navigator.pushReplacementNamed(context, '/',
+                  arguments: {'removeCardIndex': cardIndex});
+            },
+            child: Container(
+              width: getProportionateScreenWidth(32),
+              decoration: BoxDecoration(
+                color: Theme.of(context).primaryColor,
+                shape: BoxShape.circle,
+              ),
+              child: Icon(
+                Icons.do_disturb_on,
+                color: Theme.of(context).scaffoldBackgroundColor,
+              ),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
-
-// class CountryCard extends StatelessWidget {
-//   CountryCard({
-//     super.key,
-//     required this.flag,
-//     required this.url,
-//   });
-
-//   final String flag, url;
-
-//   // Future<List<String>> setupCountryTime(List<String> countryTime) async {
-//   //   print("Flag: $flag, URL: $url");
-//   //   print("got to setupCountryTime");
-//   //   WorldTime instance = WorldTime(flag: flag, url: url);
-//   //   print("countryTime1: $instance");
-//   //   await instance.getTime();
-//   //   print("countryTime2: $instance");
-//   //   return countryTime = [
-//   //     instance.countryAndCity,
-//   //     instance.offsetAndAbbrev,
-//   //     instance.flag,
-//   //     instance.time,
-//   //     instance.period
-//   //   ];
-//   //   // countryTime[0] = instance.countryAndCity;
-//   //   // countryTime[1] = instance.offsetAndAbbrev;
-//   //   // countryTime[2] = instance.flag;
-//   //   // countryTime[3] = instance.time;
-//   //   // countryTime[4] = instance.period;
-//   // }
-
-//   // late List<String> countryTime = setupCountryTime(countryTime) as List<String>;
-
-//   @override
-//   Widget build(BuildContext context) {
-//     tz.initializeTimeZones();
-//     var detroit = tz.getLocation('America/Detroit');
-//     var detroitNow = tz.TZDateTime.now(detroit);
-
-//     // countryTime = setupCountryTime(countryTime) as List<String>;
-//     return Padding(
-//       padding: EdgeInsets.only(left: getProportionateScreenWidth(20)),
-//       child: SizedBox(
-//         width: getProportionateScreenWidth(233),
-//         child: AspectRatio(
-//           aspectRatio: 1.32,
-//           child: Container(
-//             padding: EdgeInsets.all(getProportionateScreenWidth(20)),
-//             decoration: BoxDecoration(
-//               borderRadius: BorderRadius.circular(10),
-//               border: Border.all(
-//                 color: Theme.of(context).primaryIconTheme.color!,
-//               ),
-//             ),
-//             child: Column(
-//               crossAxisAlignment: CrossAxisAlignment.start,
-//               children: [
-//                 Text(
-//                   detroitNow.timeZoneName,
-//                   style: Theme.of(context)
-//                       .textTheme
-//                       .headlineMedium
-//                       ?.copyWith(fontSize: getProportionateScreenWidth(16)),
-//                 ),
-//                 SizedBox(height: 5),
-//                 Text(detroitNow.timeZoneOffset.toString()),
-//                 Spacer(),
-//                 Row(
-//                   children: [
-//                     // SvgPicture.asset(
-//                     //   Flag.fromCode(FlagsCode.US),
-//                     //   width: getProportionateScreenWidth(40),
-//                     //   color: Theme.of(context).floatingActionButtonTheme.foregroundColor,
-//                     // ),
-//                     Flag.fromCode(
-//                       FlagsCode.US,
-//                       width: getProportionateScreenWidth(40),
-//                       height: 64,
-//                     ),
-//                     Spacer(),
-//                     Text(
-//                       DateFormat('hh:mm').format(detroitNow),
-//                       style: Theme.of(context).textTheme.headlineMedium,
-//                     ),
-//                     RotatedBox(
-//                       quarterTurns: 3,
-//                       child: Text(DateFormat('a').format(detroitNow)),
-//                     )
-//                   ],
-//                 ),
-//               ],
-//             ),
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-// }

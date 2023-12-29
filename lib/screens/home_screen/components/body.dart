@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'dart:async';
 
 import 'package:clock_app_flutter/screens/home_screen/components/clock.dart';
@@ -77,72 +79,7 @@ class _BodyState extends State<Body> {
     } while (userAcceptedLocationPerms && maxTries > 0);
   }
 
-  // late int? locationCounter;
-
-  // Future<bool> isFirstTime() async {
-  //   final SharedPreferences prefs = await SharedPreferences.getInstance();
-  //   bool? firstTime = prefs.getBool("firstTime");
-
-  //   if (firstTime != null && !firstTime) {
-  //     // Not first time
-  //     return false;
-  //   } else {
-  //     prefs.setBool("firstTime", false);
-  //     return true;
-  //   }
-  // }
-
-  // Future<void> firstTimeStartup() async {
-  //   final prefs = await SharedPreferences.getInstance();
-  //   // At the very first startup, the 2 locations below will be displayed
-  //   await prefs.setInt('numLocations', 2);
-
-  //   await prefs.setStringList('Location 1', [
-  //     "America/Chicago",
-  //     "Chicago, America | ${tz.TZDateTime.now(tz.getLocation("America/Chicago")).timeZoneName}",
-  //     'UTC ${tz.TZDateTime.now(tz.getLocation("America/Chicago")).timeZoneOffset.isNegative ? "-" : "+"}${tz.TZDateTime.now(tz.getLocation("America/Chicago")).timeZoneOffset.inHours.abs() >= 10 ? '${tz.TZDateTime.now(tz.getLocation("America/Chicago")).timeZoneOffset.inHours.abs()}' : '0${tz.TZDateTime.now(tz.getLocation("America/Chicago")).timeZoneOffset.inHours.abs()}'}:${tz.TZDateTime.now(tz.getLocation("America/Chicago")).timeZoneOffset.inMinutes.remainder(60).abs().toInt() >= 10 ? '${tz.TZDateTime.now(tz.getLocation("America/Chicago")).timeZoneOffset.inMinutes.remainder(60).abs().toInt()}' : '0${tz.TZDateTime.now(tz.getLocation("America/Chicago")).timeZoneOffset.inMinutes.remainder(60).abs().toInt()}'}',
-  //   ]);
-
-  //   await prefs.setStringList('Location 2', [
-  //     "Australia/Sydney",
-  //     "Sydney, Australia | ${tz.TZDateTime.now(tz.getLocation("Australia/Sydney")).timeZoneName}",
-  //     'UTC ${tz.TZDateTime.now(tz.getLocation("Australia/Sydney")).timeZoneOffset.isNegative ? "-" : "+"}${tz.TZDateTime.now(tz.getLocation("Australia/Sydney")).timeZoneOffset.inHours.abs() >= 10 ? '${tz.TZDateTime.now(tz.getLocation("Australia/Sydney")).timeZoneOffset.inHours.abs()}' : '0${tz.TZDateTime.now(tz.getLocation("Australia/Sydney")).timeZoneOffset.inHours.abs()}'}:${tz.TZDateTime.now(tz.getLocation("Australia/Sydney")).timeZoneOffset.inMinutes.remainder(60).abs().toInt() >= 10 ? '${tz.TZDateTime.now(tz.getLocation("Australia/Sydney")).timeZoneOffset.inMinutes.remainder(60).abs().toInt()}' : '0${tz.TZDateTime.now(tz.getLocation("Australia/Sydney")).timeZoneOffset.inMinutes.remainder(60).abs().toInt()}'}',
-  //   ]);
-
-  //   locationCounter = prefs.getInt('numLocations') ?? 2;
-  // }
-
-  // Future<void> getLocationData() async {
-  //   final prefs = await SharedPreferences.getInstance();
-
-  //   if (widget.data != null) {
-  //     locationCounter = prefs.getInt('numLocations');
-  //     await prefs.setStringList('Location ${locationCounter! + 1}', [
-  //       widget.data?['placeLocation'],
-  //       widget.data?['placeName'],
-  //       widget.data?['placeUtcOffset'],
-  //     ]);
-  //     await prefs.setInt('numLocations', locationCounter! + 1);
-  //   }
-  // }
-
-  // Future<void> getAllCountryCardsFromPrefs() async {
-  //   final prefs = await SharedPreferences.getInstance();
-  //   locationCounter = prefs.getInt('numLocations') ?? 2;
-
-  //   for (var i = 1; i <= locationCounter!; i++) {
-  //     List<String>? locationData = prefs.getStringList('Location $i');
-  //     widget.countryCards.add(
-  //       UpdateCountryCard(
-  //         locationName: tz.getLocation(locationData![0]),
-  //         locationString: locationData[1],
-  //         locationOffset: locationData[2],
-  //       ),
-  //     );
-  //   }
-  // }
-
-  Future<void> getCountryCards() async {
+  Future<void> getCountryCards(int? removeCardIndex) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     int numLocations;
     // Check if it is the user's first time opening the app
@@ -150,9 +87,9 @@ class _BodyState extends State<Body> {
     if (firstTime != null && !firstTime) {
       numLocations = prefs.getInt('numLocations')!;
       // Not first time
-      if (widget.data != null) {
-        // Check if the user has selected a location from ocation screen and add it to prefs
-        // numLocations = prefs.getInt('numLocations')! + 1;
+      if (widget.data != null &&
+          (widget.data?['removeCardIndex'] == null || widget.data?['removeCardIndex'] == -1)) {
+        // Check if the user has selected a location from location screen and add it to prefs
         numLocations++;
         await prefs.setInt('numLocations', numLocations);
         await prefs.setStringList('Location $numLocations', [
@@ -168,16 +105,39 @@ class _BodyState extends State<Body> {
       numLocations = 2;
       await prefs.setInt('numLocations', numLocations);
       await prefs.setStringList('Location 1', [
-        'America/Chicago',
-        'Chicago, America | ${tz.TZDateTime.now(tz.getLocation("America/Chicago")).timeZoneName}',
-        'UTC ${tz.TZDateTime.now(tz.getLocation("America/Chicago")).timeZoneOffset.isNegative ? "-" : "+"}${tz.TZDateTime.now(tz.getLocation("America/Chicago")).timeZoneOffset.inHours.abs() >= 10 ? '${tz.TZDateTime.now(tz.getLocation("America/Chicago")).timeZoneOffset.inHours.abs()}' : '0${tz.TZDateTime.now(tz.getLocation("America/Chicago")).timeZoneOffset.inHours.abs()}'}:${tz.TZDateTime.now(tz.getLocation("America/Chicago")).timeZoneOffset.inMinutes.remainder(60).abs().toInt() >= 10 ? '${tz.TZDateTime.now(tz.getLocation("America/Chicago")).timeZoneOffset.inMinutes.remainder(60).abs().toInt()}' : '0${tz.TZDateTime.now(tz.getLocation("America/Chicago")).timeZoneOffset.inMinutes.remainder(60).abs().toInt()}'}',
-      ]);
-
-      await prefs.setStringList('Location 2', [
         'Australia/Sydney',
         "Sydney, Australia | ${tz.TZDateTime.now(tz.getLocation("Australia/Sydney")).timeZoneName}",
         'UTC ${tz.TZDateTime.now(tz.getLocation("Australia/Sydney")).timeZoneOffset.isNegative ? "-" : "+"}${tz.TZDateTime.now(tz.getLocation("Australia/Sydney")).timeZoneOffset.inHours.abs() >= 10 ? '${tz.TZDateTime.now(tz.getLocation("Australia/Sydney")).timeZoneOffset.inHours.abs()}' : '0${tz.TZDateTime.now(tz.getLocation("Australia/Sydney")).timeZoneOffset.inHours.abs()}'}:${tz.TZDateTime.now(tz.getLocation("Australia/Sydney")).timeZoneOffset.inMinutes.remainder(60).abs().toInt() >= 10 ? '${tz.TZDateTime.now(tz.getLocation("Australia/Sydney")).timeZoneOffset.inMinutes.remainder(60).abs().toInt()}' : '0${tz.TZDateTime.now(tz.getLocation("Australia/Sydney")).timeZoneOffset.inMinutes.remainder(60).abs().toInt()}'}',
       ]);
+
+      await prefs.setStringList('Location 2', [
+        'America/Chicago',
+        'Chicago, America | ${tz.TZDateTime.now(tz.getLocation("America/Chicago")).timeZoneName}',
+        'UTC ${tz.TZDateTime.now(tz.getLocation("America/Chicago")).timeZoneOffset.isNegative ? "-" : "+"}${tz.TZDateTime.now(tz.getLocation("America/Chicago")).timeZoneOffset.inHours.abs() >= 10 ? '${tz.TZDateTime.now(tz.getLocation("America/Chicago")).timeZoneOffset.inHours.abs()}' : '0${tz.TZDateTime.now(tz.getLocation("America/Chicago")).timeZoneOffset.inHours.abs()}'}:${tz.TZDateTime.now(tz.getLocation("America/Chicago")).timeZoneOffset.inMinutes.remainder(60).abs().toInt() >= 10 ? '${tz.TZDateTime.now(tz.getLocation("America/Chicago")).timeZoneOffset.inMinutes.remainder(60).abs().toInt()}' : '0${tz.TZDateTime.now(tz.getLocation("America/Chicago")).timeZoneOffset.inMinutes.remainder(60).abs().toInt()}'}',
+      ]);
+    }
+
+    if (removeCardIndex != -1 && removeCardIndex != null) {
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      int numLocations = prefs.getInt('numLocations')!;
+      prefs.remove('Location $removeCardIndex');
+      for (var i = removeCardIndex + 1; i <= numLocations; i++) {
+        List<String>? temp = prefs.getStringList('Location $i');
+        if (temp != null) {
+          prefs.setStringList('Location ${i - 1}', temp);
+        } else {
+          print("Null location in prefs");
+        }
+
+        if (i == prefs.getKeys().length - 2) {
+          prefs.remove('Location $i');
+        }
+      }
+      numLocations--;
+      prefs.setInt('numLocations', numLocations);
+
+      // Change the removeCardIndex
+      widget.data?['removeCardIndex'] = -1;
     }
 
     for (var i = 1; i <= numLocations; i++) {
@@ -185,9 +145,11 @@ class _BodyState extends State<Body> {
       if (locationData != null) {
         countryCards.add(
           UpdateCountryCard(
-              locationName: tz.getLocation(locationData[0]),
-              locationString: locationData[1],
-              locationOffset: locationData[2]),
+            locationName: tz.getLocation(locationData[0]),
+            locationString: locationData[1],
+            locationOffset: locationData[2],
+            cardIndex: i,
+          ),
         );
       }
     }
@@ -199,19 +161,7 @@ class _BodyState extends State<Body> {
   void initState() {
     super.initState();
     getCurrLocation();
-    getCountryCards();
-    // if (isFirstTime() == true) {
-    //   print("Is First Time");
-    //   firstTimeStartup();
-    //   print("Finished is first time locationCounter = $locationCounter");
-    // } else {
-    //   getLocationData();
-    //   // widget.countryCards.add(UpdateCountryCard(
-    //   //     locationName: widget.data?['placeLocation'],
-    //   //     locationString: widget.data?['placeName'],
-    //   //     locationOffset: widget.data?['placeUtcOffset']));
-    // }
-    // getAllCountryCardsFromPrefs();
+    getCountryCards(widget.data?['removeCardIndex']);
   }
 
   @override

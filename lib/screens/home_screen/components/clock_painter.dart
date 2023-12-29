@@ -14,8 +14,9 @@ class ClockPainter extends CustomPainter {
     Offset center = Offset(centreX, centreY);
 
     // Minute Hand Calculations
-    double minX = centreX + size.width * 0.35 * cos((dateTime.minute * 6) * pi / 180);
-    double minY = centreY + size.width * 0.35 * sin((dateTime.minute * 6) * pi / 180);
+    double minX = centreX + size.width * 0.38 * cos((dateTime.minute * 6) * pi / 180);
+    double minY = centreY + size.width * 0.38 * sin((dateTime.minute * 6) * pi / 180);
+
     // Minute Hand
     canvas.drawLine(
       center,
@@ -30,9 +31,10 @@ class ClockPainter extends CustomPainter {
     // dateTime.hour * 30 + dateTime.minute * 0.5 because 360 (degrees) / 12 (hours in day) = 30
     //and 30 (degrees between hours) / 60 (minutes in hour) = 0.5
     double hourX = centreX +
-        size.width * 0.3 * cos((dateTime.hour * 30 + dateTime.minute * 0.5) * pi / 180);
+        size.width * 0.2625 * cos((dateTime.hour * 30 + dateTime.minute * 0.5) * pi / 180);
     double hourY = centreY +
-        size.width * 0.3 * sin((dateTime.hour * 30 + dateTime.minute * 0.5) * pi / 180);
+        size.width * 0.2625 * sin((dateTime.hour * 30 + dateTime.minute * 0.5) * pi / 180);
+
     // Hour Hand
     canvas.drawLine(
       center,
@@ -46,8 +48,8 @@ class ClockPainter extends CustomPainter {
     // Second Hand Calculations
     // Size.width * 0.31 determines length of line
     // Datetime.second * 6 because 360 (degrees) / 60 (seconds in a minute) = 6
-    double secondX = centreX + size.width * 0.4 * cos((dateTime.second * 6) * pi / 180);
-    double secondY = centreY + size.width * 0.4 * sin((dateTime.second * 6) * pi / 180);
+    double secondX = centreX + size.width * 0.41 * cos((dateTime.second * 6) * pi / 180);
+    double secondY = centreY + size.width * 0.41 * sin((dateTime.second * 6) * pi / 180);
 
     // Second Hand
     canvas.drawLine(

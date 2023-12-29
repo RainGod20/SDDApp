@@ -27,7 +27,6 @@ class MyApp extends StatelessWidget {
           darkTheme: darkThemeData(context),
           themeMode: theme.isLightTheme ? ThemeMode.light : ThemeMode.dark,
           routes: {
-            // '/': (context) => LoadingScreen(),
             '/': (context) => HomeScreen(),
             '/location': (context) => const LocationScreen(),
           },

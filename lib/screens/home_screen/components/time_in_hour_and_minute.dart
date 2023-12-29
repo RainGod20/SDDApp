@@ -12,21 +12,26 @@ class TimeInHourAndMinute extends StatefulWidget {
 }
 
 class _TimeInHourAndMinuteState extends State<TimeInHourAndMinute> {
+  late Timer _timer;
+
   @override
   void initState() {
     super.initState();
-    Timer.periodic(const Duration(seconds: 1), (timer) {
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       setState(() {});
     });
   }
 
   @override
+  void dispose() {
+    _timer.cancel();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     var now = DateTime.now();
-
     var formattedTime = DateFormat('hh:mm').format(now);
-
-    // String _period = _timeOfDay.period == DayPeriod.am ? "AM" : "PM";
     String period = DateFormat('a').format(now);
 
     return Row(
