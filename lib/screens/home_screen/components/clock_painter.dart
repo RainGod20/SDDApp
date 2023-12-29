@@ -51,7 +51,11 @@ class ClockPainter extends CustomPainter {
 
     // Second Hand
     canvas.drawLine(
-        center, Offset(secondX, secondY), Paint()..color = Theme.of(context).primaryColor);
+        center,
+        Offset(secondX, secondY),
+        Paint()
+          ..color = Theme.of(context).primaryColor
+          ..strokeWidth = 1.5);
 
     // Center Dot
     Paint dotPainter = Paint()..color = Theme.of(context).primaryIconTheme.color!;

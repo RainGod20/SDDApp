@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use, must_be_immutable
+
 import 'package:clock_app_flutter/screens/home_screen/components/body.dart';
 import 'package:clock_app_flutter/size_config.dart';
 import 'package:flutter/material.dart';
@@ -6,10 +8,11 @@ import 'package:flutter_svg/flutter_svg.dart';
 class HomeScreen extends StatelessWidget {
   Map? data;
 
+  HomeScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     data = ModalRoute.of(context)?.settings.arguments as Map?;
-    print(data);
 
     SizeConfig().init(context);
     return Scaffold(
@@ -47,7 +50,7 @@ class HomeScreen extends StatelessWidget {
             color: Theme.of(context).primaryColor,
             shape: BoxShape.circle,
           ),
-          child: Icon(
+          child: const Icon(
             Icons.add,
             color: Colors.white,
           ),

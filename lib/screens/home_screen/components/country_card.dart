@@ -1,10 +1,10 @@
+// ignore_for_file: camel_case_types
+
 import 'dart:async';
 
-import 'package:clock_app_flutter/screens/services/world_time.dart';
 import 'package:flag/flag.dart';
 import 'package:clock_app_flutter/size_config.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/data/latest_all.dart' as tz;
@@ -39,7 +39,7 @@ class Update_CountryCardState extends State<UpdateCountryCard> {
     locationName = widget.locationName;
     locationString = widget.locationString;
     locationOffset = widget.locationOffset;
-    _timer = new Timer.periodic(Duration(seconds: 1), (timer) {
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       setState(() {});
     });
   }
@@ -81,9 +81,9 @@ class Update_CountryCardState extends State<UpdateCountryCard> {
                       .headlineMedium
                       ?.copyWith(fontSize: getProportionateScreenWidth(16)),
                 ),
-                SizedBox(height: 5),
+                const SizedBox(height: 5),
                 Text(locationOffset),
-                Spacer(),
+                const Spacer(),
                 Row(
                   children: [
                     // SvgPicture.asset(
@@ -91,12 +91,17 @@ class Update_CountryCardState extends State<UpdateCountryCard> {
                     //   width: getProportionateScreenWidth(40),
                     //   color: Theme.of(context).floatingActionButtonTheme.foregroundColor,
                     // ),
-                    Flag.fromString(
-                      locationName.countryCode,
-                      height: getProportionateScreenHeight(35),
-                      width: getProportionateScreenWidth(40),
-                    ),
-                    Spacer(),
+                    locationName.toString() == "UTC"
+                        ? const CircleAvatar(
+                            backgroundImage: AssetImage('assets/icons/UTCImage.png'),
+                            radius: 17,
+                          )
+                        : Flag.fromString(
+                            locationName.countryCode,
+                            height: getProportionateScreenHeight(35),
+                            width: getProportionateScreenWidth(40),
+                          ),
+                    const Spacer(),
                     Text(
                       DateFormat('hh:mm').format(locationNow),
                       style: Theme.of(context).textTheme.headlineMedium,

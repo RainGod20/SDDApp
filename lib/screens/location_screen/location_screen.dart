@@ -1,10 +1,9 @@
-import 'package:clock_app_flutter/constants.dart';
-import 'package:clock_app_flutter/theme.dart';
+// ignore_for_file: avoid_print
+
 import 'package:flag/flag.dart';
 import 'package:flutter/material.dart';
 import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/data/latest.dart' as tz;
-import 'package:timezone/src/location.dart' as tz;
 import 'package:timezone_to_country/timezone_to_country.dart';
 
 class LocationScreen extends StatefulWidget {
@@ -130,7 +129,7 @@ class _LocationScreenState extends State<LocationScreen> {
                 style: Theme.of(context).textTheme.bodyMedium,
               ),
               leading: locations[index].name == "UTC"
-                  ? CircleAvatar(
+                  ? const CircleAvatar(
                       backgroundImage: AssetImage('assets/icons/UTCImage.png'),
                       radius: 17,
                     )

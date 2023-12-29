@@ -1,20 +1,20 @@
 import 'package:clock_app_flutter/models/my_theme_provider.dart';
-import 'package:clock_app_flutter/screens/loading_screen/loading_screen.dart';
 import 'package:clock_app_flutter/screens/location_screen/location_screen.dart';
 import 'package:clock_app_flutter/theme.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
-import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/data/latest_all.dart' as tz;
 
 import 'screens/home_screen/home_screen.dart';
 
 void main() {
   tz.initializeTimeZones();
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
           routes: {
             // '/': (context) => LoadingScreen(),
             '/': (context) => HomeScreen(),
-            '/location': (context) => LocationScreen(),
+            '/location': (context) => const LocationScreen(),
           },
         ),
       ),
