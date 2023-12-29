@@ -35,6 +35,8 @@ class _StopwatchScreenState extends State<StopwatchScreen> {
   void reset() {
     timer!.cancel();
     setState(() {
+      laps.clear();
+
       seconds = 0;
       minutes = 0;
       hours = 0;

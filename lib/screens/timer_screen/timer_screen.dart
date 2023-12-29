@@ -32,15 +32,11 @@ class _TimerScreenState extends State<TimerScreen> with TickerProviderStateMixin
   Duration lastDuration = const Duration(seconds: 60);
 
   Future<void> notify() async {
-    if (countText == '0:00:02') {
+    if (countText == '0:00:00') {
       FlutterRingtonePlayer().play(
-        android: AndroidSounds.ringtone,
-        ios: IosSounds.electronic,
-        volume: 0.2,
+        fromAsset: "assets/icons/ringtone.mp3",
       );
     }
-    await Future.delayed(const Duration(seconds: 15));
-    FlutterRingtonePlayer().stop();
   }
 
   @override
