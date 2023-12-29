@@ -68,7 +68,7 @@ class _StopwatchScreenState extends State<StopwatchScreen> {
             child: Icon(
               Icons.timer_outlined,
               size: getProportionateScreenWidth(75),
-              color: Theme.of(context).iconTheme.color,
+              color: Theme.of(context).colorScheme.onSecondary,
             ),
           ),
 
@@ -99,23 +99,24 @@ class _StopwatchScreenState extends State<StopwatchScreen> {
               style: Theme.of(context).textTheme.titleMedium,
             ),
             onTap: () {
-              // Go to world clock page (home)
+              // Go to timer page
               Navigator.pushReplacementNamed(context, '/timer');
             },
           ),
 
           // Stopwatch listTile
           ListTile(
+            tileColor: Theme.of(context).colorScheme.onTertiary,
             leading: SvgPicture.asset(
               'assets/icons/stop_watch.svg',
-              color: Theme.of(context).iconTheme.color,
+              color: Theme.of(context).colorScheme.surface,
             ),
             title: Text(
               "S T O P W A T C H",
-              style: Theme.of(context).textTheme.titleMedium,
+              style: Theme.of(context).textTheme.titleSmall,
             ),
             onTap: () {
-              // Go to world clock page (home)
+              // Go to stopwatch page
               Navigator.pushReplacementNamed(context, '/stopwatch');
             },
           ),

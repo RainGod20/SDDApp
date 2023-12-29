@@ -55,7 +55,7 @@ class _TimerScreenState extends State<TimerScreen> {
             child: Icon(
               Icons.timer_outlined,
               size: getProportionateScreenWidth(75),
-              color: Theme.of(context).iconTheme.color,
+              color: Theme.of(context).colorScheme.onSecondary,
             ),
           ),
 
@@ -77,16 +77,17 @@ class _TimerScreenState extends State<TimerScreen> {
 
           // Timer listTile
           ListTile(
+            tileColor: Theme.of(context).colorScheme.onTertiary,
             leading: SvgPicture.asset(
               'assets/icons/watch_2.svg',
-              color: Theme.of(context).iconTheme.color,
+              color: Theme.of(context).colorScheme.surface,
             ),
             title: Text(
               "T I M E R",
-              style: Theme.of(context).textTheme.titleMedium,
+              style: Theme.of(context).textTheme.titleSmall,
             ),
             onTap: () {
-              // Go to world clock page (home)
+              // Go to timer page
               Navigator.pushReplacementNamed(context, '/timer');
             },
           ),
@@ -102,7 +103,7 @@ class _TimerScreenState extends State<TimerScreen> {
               style: Theme.of(context).textTheme.titleMedium,
             ),
             onTap: () {
-              // Go to world clock page (home)
+              // Go to stopwatch page
               Navigator.pushReplacementNamed(context, '/stopwatch');
             },
           ),

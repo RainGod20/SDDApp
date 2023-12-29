@@ -33,13 +33,6 @@ class HomeScreen extends StatelessWidget {
         ),
       ),
       iconTheme: Theme.of(context).iconTheme,
-      // leading: IconButton(
-      //   icon: SvgPicture.asset(
-      //     'assets/icons/Settings.svg',
-      //     color: Theme.of(context).iconTheme.color,
-      //   ),
-      //   onPressed: () {},
-      // ),
       actions: [buildAddButton(context)],
     );
   }
@@ -77,19 +70,20 @@ class HomeScreen extends StatelessWidget {
             child: Icon(
               Icons.timer_outlined,
               size: getProportionateScreenWidth(75),
-              color: Theme.of(context).iconTheme.color,
+              color: Theme.of(context).colorScheme.onSecondary,
             ),
           ),
 
           // Homepage listTile (World Clock)
           ListTile(
+            tileColor: Theme.of(context).colorScheme.onTertiary,
             leading: SvgPicture.asset(
               'assets/icons/world.svg',
-              color: Theme.of(context).iconTheme.color,
+              color: Theme.of(context).colorScheme.surface,
             ),
             title: Text(
               "W O R L D    C L O C K",
-              style: Theme.of(context).textTheme.titleMedium,
+              style: Theme.of(context).textTheme.titleSmall,
             ),
             onTap: () {
               // Go to world clock page (home)
@@ -108,7 +102,7 @@ class HomeScreen extends StatelessWidget {
               style: Theme.of(context).textTheme.titleMedium,
             ),
             onTap: () {
-              // Go to world clock page (home)
+              // Go to timer page
               Navigator.pushReplacementNamed(context, '/timer');
             },
           ),
@@ -124,7 +118,7 @@ class HomeScreen extends StatelessWidget {
               style: Theme.of(context).textTheme.titleMedium,
             ),
             onTap: () {
-              // Go to world clock page (home)
+              // Go to stopwatch page
               Navigator.pushReplacementNamed(context, '/stopwatch');
             },
           ),

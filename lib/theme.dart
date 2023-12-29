@@ -15,6 +15,7 @@ ThemeData themeData(BuildContext context) {
     colorScheme: ColorScheme.light(
       secondary: kSecondaryLightColor,
       onSecondary: kAccentLightColor,
+      onSecondaryContainer: kOnAccentLightColor,
       tertiary: kSecondaryDarkColor,
       onTertiary: kAccentDarkColor,
       background: Colors.white,
@@ -51,6 +52,7 @@ ThemeData darkThemeData(BuildContext context) {
     colorScheme: ColorScheme.light(
         secondary: kSecondaryDarkColor,
         onSecondary: kAccentDarkColor,
+        onSecondaryContainer: kAccentDarkColor,
         tertiary: kSecondaryLightColor,
         onTertiary: kAccentLightColor,
         surface: kSurfaceDarkColor,
