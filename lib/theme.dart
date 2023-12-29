@@ -11,9 +11,12 @@ ThemeData themeData(BuildContext context) {
     appBarTheme: appBarTheme,
     primaryColor: kPrimaryColor,
     scaffoldBackgroundColor: Colors.white,
+    dividerTheme: DividerThemeData(color: kPrimaryColor),
     colorScheme: ColorScheme.light(
       secondary: kSecondaryLightColor,
       onSecondary: kAccentLightColor,
+      tertiary: kSecondaryDarkColor,
+      onTertiary: kAccentDarkColor,
       background: Colors.white,
       // on light theme surface = Colors.white by default
     ),
@@ -26,7 +29,14 @@ ThemeData themeData(BuildContext context) {
       bodyMedium: TextStyle(color: kBodyTextColorLight),
       headlineMedium: TextStyle(color: kTitleTextLightColor, fontSize: 32),
       displayLarge: TextStyle(color: kTitleTextLightColor, fontSize: 80),
+      displayMedium: TextStyle(
+        color: kSecondaryDarkColor,
+        fontSize: 60,
+        fontWeight: FontWeight.bold,
+      ),
       titleMedium: TextStyle(color: kTitleTextLightColor, fontSize: 15),
+      titleLarge: TextStyle(color: kBodyTextColorLight, fontSize: 20),
+      titleSmall: TextStyle(color: kTitleTextDarkColor, fontSize: 15),
     ),
   );
 }
@@ -37,9 +47,12 @@ ThemeData darkThemeData(BuildContext context) {
     primaryColor: kPrimaryColor,
     scaffoldBackgroundColor: Color(0xFF0D0C0E),
     appBarTheme: appBarTheme,
+    dividerTheme: DividerThemeData(color: kPrimaryColor),
     colorScheme: ColorScheme.light(
         secondary: kSecondaryDarkColor,
         onSecondary: kAccentDarkColor,
+        tertiary: kSecondaryLightColor,
+        onTertiary: kAccentLightColor,
         surface: kSurfaceDarkColor,
         background: kBackgroundDarkColor
         // on dark theme surface background needs to be initialised
@@ -53,7 +66,14 @@ ThemeData darkThemeData(BuildContext context) {
       bodyMedium: TextStyle(color: kBodyTextColorDark),
       headlineMedium: TextStyle(color: kTitleTextDarkColor, fontSize: 32),
       displayLarge: TextStyle(color: kTitleTextDarkColor, fontSize: 80),
+      displayMedium: TextStyle(
+        color: kSecondaryLightColor,
+        fontSize: 60,
+        fontWeight: FontWeight.bold,
+      ),
       titleMedium: TextStyle(color: kTitleTextDarkColor, fontSize: 15),
+      titleLarge: TextStyle(color: kBodyTextColorDark, fontSize: 20),
+      titleSmall: TextStyle(color: kTitleTextLightColor, fontSize: 15),
     ),
   );
 }

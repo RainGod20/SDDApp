@@ -1,5 +1,7 @@
 import 'package:clock_app_flutter/models/my_theme_provider.dart';
 import 'package:clock_app_flutter/screens/location_screen/location_screen.dart';
+import 'package:clock_app_flutter/screens/stopwatch_screen/stopwatch_screen.dart';
+import 'package:clock_app_flutter/screens/timer_screen/timer_screen.dart';
 import 'package:clock_app_flutter/theme.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
@@ -29,6 +31,8 @@ class MyApp extends StatelessWidget {
           routes: {
             '/': (context) => HomeScreen(),
             '/location': (context) => const LocationScreen(),
+            '/timer': (context) => const TimerScreen(),
+            '/stopwatch': (context) => const StopwatchScreen(),
           },
         ),
       ),
