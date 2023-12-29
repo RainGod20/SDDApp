@@ -14,12 +14,10 @@ dependencies:
   flutter_svg: ^2.0.9
   provider: ^6.1.1
   intl: ^0.19.0
-  http: ^1.1.2
   timezone: ^0.9.2
   flag: ^7.0.0
   geolocator: ^10.1.0
   geocoding: ^2.1.1
-  timezone_button_dropdown: ^1.0.2
   timezone_to_country: ^2.1.0
   shared_preferences: ^2.2.2
 
