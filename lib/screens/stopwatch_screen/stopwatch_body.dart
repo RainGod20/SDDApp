@@ -28,7 +28,9 @@ class _StopwatchBodyState extends State<StopwatchBody> {
 
   // Reset Timer Function
   void reset() {
-    timer!.cancel();
+    if (timer != null) {
+      timer!.cancel();
+    }
     setState(() {
       laps.clear();
 

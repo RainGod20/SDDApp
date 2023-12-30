@@ -1,3 +1,5 @@
+// ignore_for_file: unused_local_variable
+
 import 'package:clock_app_flutter/models/my_theme_provider.dart';
 import 'package:clock_app_flutter/screens/pomodoro_screen/pomodoro_timer_body.dart';
 import 'package:clock_app_flutter/screens/pomodoro_screen/timerservice.dart';
@@ -36,7 +38,6 @@ class PomodoroTimerScreen extends StatelessWidget {
         ),
       ),
       iconTheme: Theme.of(context).iconTheme,
-      // actions: [buildPomodoroTimerIcon(context)],
       actions: [
         IconButton(
           icon: const Icon(Icons.refresh),
