@@ -1,4 +1,3 @@
-import 'package:clock_app_flutter/constants.dart';
 import 'package:clock_app_flutter/models/my_theme_provider.dart';
 import 'package:clock_app_flutter/screens/pomodoro_screen/timerservice.dart';
 import 'package:clock_app_flutter/size_config.dart';
