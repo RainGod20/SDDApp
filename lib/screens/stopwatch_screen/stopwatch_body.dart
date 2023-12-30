@@ -88,111 +88,122 @@ class _StopwatchBodyState extends State<StopwatchBody> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          const SizedBox(
-            height: 20.0,
-          ),
-          Center(
-            child: Text(
-              "$digitHours:$digitMinutes:$digitSeconds",
-              style: Theme.of(context).textTheme.displayMedium,
+    return SingleChildScrollView(
+      scrollDirection: Axis.vertical,
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            SizedBox(
+              height: getProportionateScreenHeight(25),
             ),
-          ),
-          Container(
-            height: 400,
-            decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.secondary,
-              borderRadius: BorderRadius.circular(20),
-              border: Border.all(color: Theme.of(context).colorScheme.onSecondary),
-              boxShadow: Theme.of(context).colorScheme.background == Colors.white
-                  ? [
-                      BoxShadow(
-                        color: kShadowColor.withOpacity(0.14),
-                        blurRadius: 64,
-                        spreadRadius: 64,
-                      )
-                    ]
-                  : null,
-            ),
-            child: ListView.builder(
-              itemCount: laps.length,
-              itemBuilder: (context, index) {
-                return Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "Lap Number ${index + 1}",
-                        style: Theme.of(context).textTheme.titleMedium,
-                      ),
-                      Text(
-                        "${laps[index]}",
-                        style: Theme.of(context).textTheme.titleMedium,
-                      )
-                    ],
-                  ),
-                );
-              },
-            ),
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Expanded(
-                child: RawMaterialButton(
-                  onPressed: () {
-                    (!started) ? start() : stop();
-                  },
-                  shape: StadiumBorder(
-                    side: (!started)
-                        ? BorderSide(color: Colors.greenAccent)
-                        : BorderSide(color: Theme.of(context).primaryColor),
-                  ),
-                  child: Text(
-                    (!started) ? "Start" : "Pause",
-                    style: Theme.of(context).textTheme.titleMedium,
-                  ),
-                ),
+            Center(
+              child: Text(
+                "$digitHours:$digitMinutes:$digitSeconds",
+                style: Theme.of(context).textTheme.displayMedium,
               ),
-              const SizedBox(width: 8),
-              IconButton(
-                color: Theme.of(context).colorScheme.tertiary,
-                onPressed: () {
-                  addLaps();
+            ),
+            Flexible(
+              fit: FlexFit.loose,
+              child: SizedBox(height: getProportionateScreenHeight(25)),
+            ),
+            Container(
+              height: 400,
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.secondary,
+                borderRadius: BorderRadius.circular(20),
+                border: Border.all(color: Theme.of(context).colorScheme.onSecondary),
+                boxShadow: Theme.of(context).colorScheme.background == Colors.white
+                    ? [
+                        BoxShadow(
+                          color: kShadowColor.withOpacity(0.14),
+                          blurRadius: 64,
+                          spreadRadius: 64,
+                        )
+                      ]
+                    : null,
+              ),
+              child: ListView.builder(
+                itemCount: laps.length,
+                itemBuilder: (context, index) {
+                  return Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "Lap Number ${index + 1}",
+                          style: Theme.of(context).textTheme.titleMedium,
+                        ),
+                        Text(
+                          "${laps[index]}",
+                          style: Theme.of(context).textTheme.titleMedium,
+                        )
+                      ],
+                    ),
+                  );
                 },
-                icon: Icon(
-                  Icons.flag_rounded,
-                  size: getProportionateScreenWidth(37.5),
-                  color: Theme.of(context).colorScheme.onTertiary,
-                ),
               ),
-              const SizedBox(width: 8),
-              Expanded(
-                child: RawMaterialButton(
-                  onPressed: () {
-                    reset();
-                  },
-                  fillColor: Theme.of(context).primaryColor,
-                  shape:
-                      StadiumBorder(side: BorderSide(color: Theme.of(context).primaryColor)),
-                  child: const Text(
-                    "Reset",
-                    style: TextStyle(color: kTitleTextLightColor, fontSize: 15),
+            ),
+            Flexible(
+              fit: FlexFit.loose,
+              child: SizedBox(
+                height: getProportionateScreenHeight(40),
+              ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  child: RawMaterialButton(
+                    onPressed: () {
+                      (!started) ? start() : stop();
+                    },
+                    shape: StadiumBorder(
+                      side: (!started)
+                          ? BorderSide(color: Colors.greenAccent)
+                          : BorderSide(color: Theme.of(context).primaryColor),
+                    ),
+                    child: Text(
+                      (!started) ? "Start" : "Pause",
+                      style: Theme.of(context).textTheme.titleMedium,
+                    ),
                   ),
                 ),
-              ),
-            ],
-          )
-        ],
+                const SizedBox(width: 8),
+                IconButton(
+                  color: Theme.of(context).colorScheme.tertiary,
+                  onPressed: () {
+                    addLaps();
+                  },
+                  icon: Icon(
+                    Icons.flag_rounded,
+                    size: getProportionateScreenWidth(37.5),
+                    color: Theme.of(context).colorScheme.onTertiary,
+                  ),
+                ),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: RawMaterialButton(
+                    onPressed: () {
+                      reset();
+                    },
+                    fillColor: Theme.of(context).primaryColor,
+                    shape:
+                        StadiumBorder(side: BorderSide(color: Theme.of(context).primaryColor)),
+                    child: const Text(
+                      "Reset",
+                      style: TextStyle(color: kTitleTextLightColor, fontSize: 15),
+                    ),
+                  ),
+                ),
+              ],
+            )
+          ],
+        ),
       ),
     );
   }

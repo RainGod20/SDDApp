@@ -26,6 +26,7 @@ class HomeScreen extends StatelessWidget {
 
   AppBar buildAppBar(BuildContext context) {
     return AppBar(
+      scrolledUnderElevation: 0,
       title: Center(
         child: Text(
           "World Clock",

@@ -71,131 +71,143 @@ class _TimerBodyState extends State<TimerBody> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Expanded(
-          child: Center(
-            child: Stack(
-              alignment: Alignment.center,
-              children: [
-                Container(
-                  width: getProportionateScreenWidth(325),
-                  height: getProportionateScreenWidth(325),
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.surface,
-                    shape: BoxShape.circle,
-                    boxShadow: Theme.of(context).colorScheme.background == Colors.white
-                        ? [
-                            BoxShadow(
-                              color: kShadowColor.withOpacity(0.14),
-                              blurRadius: 64,
-                              spreadRadius: 64,
-                            )
-                          ]
-                        : null,
+    return SingleChildScrollView(
+      scrollDirection: Axis.vertical,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          SizedBox(
+            height: getProportionateScreenHeight(125),
+          ),
+          Flexible(
+            fit: FlexFit.loose,
+            flex: 1,
+            child: Center(
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  Container(
+                    width: getProportionateScreenWidth(325),
+                    height: getProportionateScreenWidth(325),
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).colorScheme.surface,
+                      shape: BoxShape.circle,
+                      boxShadow: Theme.of(context).colorScheme.background == Colors.white
+                          ? [
+                              BoxShadow(
+                                color: kShadowColor.withOpacity(0.14),
+                                blurRadius: 64,
+                                spreadRadius: 64,
+                              )
+                            ]
+                          : null,
+                    ),
+                    child: CircularProgressIndicator(
+                      backgroundColor: Theme.of(context).colorScheme.onSecondary,
+                      color: Theme.of(context).primaryColor,
+                      strokeWidth: 6,
+                      value: progressValue,
+                    ),
                   ),
-                  child: CircularProgressIndicator(
-                    backgroundColor: Theme.of(context).colorScheme.onSecondary,
-                    color: Theme.of(context).primaryColor,
-                    strokeWidth: 6,
-                    value: progressValue,
+                  GestureDetector(
+                    onTap: () {
+                      if (controller.isDismissed) {
+                        showModalBottomSheet(
+                          context: context,
+                          builder: (context) => Container(
+                            color: Colors.white,
+                            height: 300,
+                            child: CupertinoTimerPicker(
+                              backgroundColor:
+                                  Theme.of(context).colorScheme.background == Colors.white
+                                      ? Colors.white
+                                      : Colors.white70,
+                              initialTimerDuration: lastDuration,
+                              onTimerDurationChanged: (time) {
+                                setState(
+                                  () {
+                                    controller.duration = time;
+                                    lastDuration = time;
+                                  },
+                                );
+                              },
+                            ),
+                          ),
+                        );
+                      }
+                    },
+                    child: AnimatedBuilder(
+                      animation: controller,
+                      builder: (context, child) => Text(
+                        countText,
+                        style: Theme.of(context).textTheme.displayMedium,
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    top: 50,
+                    left: 0,
+                    right: 0,
+                    child: Consumer<MyThemeModel>(
+                      builder: (context, theme, child) => GestureDetector(
+                        onTap: () => theme.changeTheme(),
+                        child: SvgPicture.asset(
+                          theme.isLightTheme
+                              ? "assets/icons/Sun.svg"
+                              : "assets/icons/Moon.svg",
+                          height: 24,
+                          width: 24,
+                          color: Theme.of(context).primaryColor,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          SizedBox(height: getProportionateScreenHeight(100)),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    if (controller.isAnimating == false) {
+                      controller.reverse(from: controller.value == 0 ? 1.0 : controller.value);
+                      setState(() {
+                        isPlaying = true;
+                      });
+                    } else {
+                      controller.stop();
+                      setState(
+                        () {
+                          isPlaying = false;
+                        },
+                      );
+                    }
+                  },
+                  child: RoundButton(
+                    icon: isPlaying ? (Icons.pause) : Icons.play_arrow,
                   ),
                 ),
                 GestureDetector(
                   onTap: () {
-                    if (controller.isDismissed) {
-                      showModalBottomSheet(
-                        context: context,
-                        builder: (context) => Container(
-                          color: Colors.white,
-                          height: 300,
-                          child: CupertinoTimerPicker(
-                            backgroundColor:
-                                Theme.of(context).colorScheme.background == Colors.white
-                                    ? Colors.white
-                                    : Colors.white70,
-                            initialTimerDuration: lastDuration,
-                            onTimerDurationChanged: (time) {
-                              setState(
-                                () {
-                                  controller.duration = time;
-                                  lastDuration = time;
-                                },
-                              );
-                            },
-                          ),
-                        ),
-                      );
-                    }
+                    controller.reset();
+                    setState(() {
+                      isPlaying = false;
+                    });
                   },
-                  child: AnimatedBuilder(
-                    animation: controller,
-                    builder: (context, child) => Text(
-                      countText,
-                      style: Theme.of(context).textTheme.displayMedium,
-                    ),
-                  ),
-                ),
-                Positioned(
-                  top: 50,
-                  left: 0,
-                  right: 0,
-                  child: Consumer<MyThemeModel>(
-                    builder: (context, theme, child) => GestureDetector(
-                      onTap: () => theme.changeTheme(),
-                      child: SvgPicture.asset(
-                        theme.isLightTheme ? "assets/icons/Sun.svg" : "assets/icons/Moon.svg",
-                        height: 24,
-                        width: 24,
-                        color: Theme.of(context).primaryColor,
-                      ),
-                    ),
+                  child: const RoundButton(
+                    icon: Icons.stop,
                   ),
                 ),
               ],
             ),
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              GestureDetector(
-                onTap: () {
-                  if (controller.isAnimating == false) {
-                    controller.reverse(from: controller.value == 0 ? 1.0 : controller.value);
-                    setState(() {
-                      isPlaying = true;
-                    });
-                  } else {
-                    controller.stop();
-                    setState(
-                      () {
-                        isPlaying = false;
-                      },
-                    );
-                  }
-                },
-                child: RoundButton(
-                  icon: isPlaying ? (Icons.pause) : Icons.play_arrow,
-                ),
-              ),
-              GestureDetector(
-                onTap: () {
-                  controller.reset();
-                  setState(() {
-                    isPlaying = false;
-                  });
-                },
-                child: const RoundButton(
-                  icon: Icons.stop,
-                ),
-              ),
-            ],
-          ),
-        )
-      ],
+          )
+        ],
+      ),
     );
   }
 }

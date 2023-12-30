@@ -1,3 +1,4 @@
+import 'package:clock_app_flutter/size_config.dart';
 import 'package:flutter/material.dart';
 
 class RoundButton extends StatelessWidget {
@@ -10,16 +11,16 @@ class RoundButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(
-        horizontal: 5,
+      padding: EdgeInsets.symmetric(
+        horizontal: getProportionateScreenHeight(8),
       ),
       child: CircleAvatar(
         backgroundColor: Theme.of(context).primaryColor,
-        radius: 30,
+        radius: getProportionateScreenWidth(30),
         child: Icon(
           icon,
           color: Theme.of(context).colorScheme.secondary,
-          size: 36,
+          size: getProportionateScreenWidth(36),
         ),
       ),
     );

@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:clock_app_flutter/size_config.dart';
 import 'package:flutter/material.dart';
 
 class ClockPainter extends CustomPainter {
@@ -77,7 +78,9 @@ class ClockPainter extends CustomPainter {
             : Theme.of(context).colorScheme.onSecondaryContainer
         ..strokeWidth = (i % 5 == 0) ? 4 : 1.5;
 
-      int distance = (i % 5 == 0) ? 35 : 50;
+      int distance = (i % 5 == 0)
+          ? getProportionateScreenWidth(35).toInt()
+          : getProportionateScreenWidth(50).toInt();
 
       double x1 = (size.width / 2) + (size.width / 3 + distance) * cos(minute * pi / 180);
       double y1 = (size.height / 2) + (size.width / 3 + distance) * sin(minute * pi / 180);

@@ -5,6 +5,7 @@ import 'dart:async';
 import 'package:clock_app_flutter/screens/home_screen/components/clock.dart';
 import 'package:clock_app_flutter/screens/home_screen/components/country_card.dart';
 import 'package:clock_app_flutter/screens/home_screen/components/time_in_hour_and_minute.dart';
+import 'package:clock_app_flutter/size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:geocoding/geocoding.dart';
@@ -167,27 +168,35 @@ class _BodyState extends State<Body> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: SizedBox(
-        width: double.infinity,
-        child: Column(
-          children: [
-            Text(
-              locationData,
-              style: Theme.of(context).textTheme.bodyLarge,
-              overflow: TextOverflow.ellipsis,
-            ),
-            const TimeInHourAndMinute(),
-            const Spacer(),
-            const Clock(),
-            const Spacer(),
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                children: countryCards,
+    return SingleChildScrollView(
+      scrollDirection: Axis.vertical,
+      child: SafeArea(
+        child: SizedBox(
+          width: double.infinity,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                locationData,
+                style: Theme.of(context).textTheme.bodyLarge,
+                overflow: TextOverflow.ellipsis,
               ),
-            ),
-          ],
+              const TimeInHourAndMinute(),
+              SizedBox(
+                height: getProportionateScreenHeight(30),
+              ),
+              const Clock(),
+              SizedBox(
+                height: getProportionateScreenHeight(30),
+              ),
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: countryCards,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
