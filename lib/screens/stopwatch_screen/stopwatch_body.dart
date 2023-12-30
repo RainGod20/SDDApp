@@ -1,6 +1,7 @@
 import "dart:async";
 
 import "package:clock_app_flutter/constants.dart";
+import "package:clock_app_flutter/size_config.dart";
 import "package:flutter/material.dart";
 
 class StopwatchBody extends StatefulWidget {
@@ -53,7 +54,9 @@ class _StopwatchBodyState extends State<StopwatchBody> {
 
   // Start Timer Function
   void start() {
-    started = true;
+    setState(() {
+      started = true;
+    });
     timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       int localSeconds = seconds + 1;
       int localMinutes = minutes;
@@ -148,7 +151,9 @@ class _StopwatchBodyState extends State<StopwatchBody> {
                     (!started) ? start() : stop();
                   },
                   shape: StadiumBorder(
-                    side: BorderSide(color: Theme.of(context).primaryColor),
+                    side: (!started)
+                        ? BorderSide(color: Colors.greenAccent)
+                        : BorderSide(color: Theme.of(context).primaryColor),
                   ),
                   child: Text(
                     (!started) ? "Start" : "Pause",
@@ -162,7 +167,11 @@ class _StopwatchBodyState extends State<StopwatchBody> {
                 onPressed: () {
                   addLaps();
                 },
-                icon: const Icon(Icons.flag),
+                icon: Icon(
+                  Icons.flag_rounded,
+                  size: getProportionateScreenWidth(37.5),
+                  color: Theme.of(context).colorScheme.onTertiary,
+                ),
               ),
               const SizedBox(width: 8),
               Expanded(

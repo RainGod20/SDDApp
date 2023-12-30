@@ -90,8 +90,8 @@ class _StopwatchScreenState extends State<StopwatchScreen> {
 
           // Timer listTile
           ListTile(
-            leading: SvgPicture.asset(
-              'assets/icons/watch_2.svg',
+            leading: Icon(
+              Icons.hourglass_empty_rounded,
               color: Theme.of(context).iconTheme.color,
             ),
             title: Text(
@@ -118,6 +118,22 @@ class _StopwatchScreenState extends State<StopwatchScreen> {
             onTap: () {
               // Go to stopwatch page
               Navigator.pushReplacementNamed(context, '/stopwatch');
+            },
+          ),
+
+          // Pomodoro Timer listTile
+          ListTile(
+            leading: SvgPicture.asset(
+              'assets/icons/clock.svg',
+              color: Theme.of(context).iconTheme.color,
+            ),
+            title: Text(
+              "P O M O D O R O    T I M E R",
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
+            onTap: () {
+              // Go to Pomodoro Timer page
+              Navigator.pushReplacementNamed(context, '/pomodoro');
             },
           ),
         ],

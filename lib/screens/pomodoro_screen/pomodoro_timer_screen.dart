@@ -1,59 +1,68 @@
-// ignore_for_file: deprecated_member_use, must_be_immutable
-
-import 'package:clock_app_flutter/screens/home_screen/components/body.dart';
+import 'package:clock_app_flutter/models/my_theme_provider.dart';
+import 'package:clock_app_flutter/screens/pomodoro_screen/pomodoro_timer_body.dart';
+import 'package:clock_app_flutter/screens/pomodoro_screen/timerservice.dart';
 import 'package:clock_app_flutter/size_config.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:provider/provider.dart';
 
-class HomeScreen extends StatelessWidget {
-  Map? data;
-
-  HomeScreen({super.key});
+class PomodoroTimerScreen extends StatelessWidget {
+  const PomodoroTimerScreen({super.key});
+  Color renderColor(String currentState) {
+    if (currentState == "FOCUS") {
+      return Colors.redAccent;
+    } else {
+      return Colors.greenAccent;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    data = ModalRoute.of(context)?.settings.arguments as Map?;
-
-    SizeConfig().init(context);
+    final provider = Provider.of<timerService>(context);
     return Scaffold(
       drawer: buildDrawer(context),
       appBar: buildAppBar(context),
-      body: Body(
-        data: data,
-      ),
+      body: PomodoroTimerBody(),
     );
   }
 
   AppBar buildAppBar(BuildContext context) {
     return AppBar(
+      scrolledUnderElevation: 0,
       title: Center(
         child: Text(
-          "World Clock",
+          'Pomodoro Timer',
           style: Theme.of(context).textTheme.titleLarge,
         ),
       ),
       iconTheme: Theme.of(context).iconTheme,
-      actions: [buildAddButton(context)],
+      // actions: [buildPomodoroTimerIcon(context)],
+      actions: [
+        IconButton(
+          icon: const Icon(Icons.refresh),
+          iconSize: 40,
+          color: Theme.of(context).colorScheme.onSecondary,
+          onPressed: () => Provider.of<timerService>(context, listen: false).reset(),
+        ),
+      ],
     );
   }
 
-  Padding buildAddButton(BuildContext context) {
+  Padding buildPomodoroTimerIcon(BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(10)),
-      child: InkWell(
-        onTap: () {
-          // Navigate to Choose Clock page
-          Navigator.pushNamed(context, '/location');
-        },
-        child: Container(
-          width: getProportionateScreenWidth(32),
-          decoration: BoxDecoration(
-            color: Theme.of(context).primaryColor,
-            shape: BoxShape.circle,
-          ),
-          child: const Icon(
-            Icons.add,
-            color: Colors.white,
+      child: Container(
+        width: getProportionateScreenWidth(32),
+        color: Colors.transparent,
+        child: Consumer<MyThemeModel>(
+          builder: (context, theme, child) => GestureDetector(
+            onTap: () => theme.changeTheme(),
+            child: SvgPicture.asset(
+              theme.isLightTheme ? "assets/icons/Sun.svg" : "assets/icons/Moon.svg",
+              height: 24,
+              width: 24,
+              color: Theme.of(context).primaryColor,
+            ),
           ),
         ),
       ),
@@ -76,14 +85,13 @@ class HomeScreen extends StatelessWidget {
 
           // Homepage listTile (World Clock)
           ListTile(
-            tileColor: Theme.of(context).colorScheme.onTertiary,
             leading: SvgPicture.asset(
               'assets/icons/world.svg',
-              color: Theme.of(context).colorScheme.surface,
+              color: Theme.of(context).iconTheme.color,
             ),
             title: Text(
               "W O R L D    C L O C K",
-              style: Theme.of(context).textTheme.titleSmall,
+              style: Theme.of(context).textTheme.titleMedium,
             ),
             onTap: () {
               // Go to world clock page (home)
@@ -125,13 +133,14 @@ class HomeScreen extends StatelessWidget {
 
           // Pomodoro Timer listTile
           ListTile(
+            tileColor: Theme.of(context).colorScheme.onTertiary,
             leading: SvgPicture.asset(
               'assets/icons/clock.svg',
-              color: Theme.of(context).iconTheme.color,
+              color: Theme.of(context).colorScheme.surface,
             ),
             title: Text(
               "P O M O D O R O    T I M E R",
-              style: Theme.of(context).textTheme.titleMedium,
+              style: Theme.of(context).textTheme.titleSmall,
             ),
             onTap: () {
               // Go to Pomodoro Timer page

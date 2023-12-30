@@ -64,6 +64,29 @@ class ClockPainter extends CustomPainter {
     canvas.drawCircle(center, 24, dotPainter);
     canvas.drawCircle(center, 23, Paint()..color = Theme.of(context).colorScheme.background);
     canvas.drawCircle(center, 10, dotPainter);
+
+    // External Lines
+    for (int i = 0; i < 60; i++) {
+      // Calculate line position
+      double minute = (6 * i).toDouble();
+
+      // Set style every 5 min
+      Paint externalLinePainter = Paint()
+        ..color = (i % 5 == 0)
+            ? Theme.of(context).colorScheme.secondary
+            : Theme.of(context).colorScheme.onSecondaryContainer
+        ..strokeWidth = (i % 5 == 0) ? 4 : 1.5;
+
+      int distance = (i % 5 == 0) ? 35 : 50;
+
+      double x1 = (size.width / 2) + (size.width / 3 + distance) * cos(minute * pi / 180);
+      double y1 = (size.height / 2) + (size.width / 3 + distance) * sin(minute * pi / 180);
+
+      double x2 = (size.width / 2) + (size.width / 3 + 57.5) * cos(minute * pi / 180);
+      double y2 = (size.height / 2) + (size.width / 3 + 57.5) * sin(minute * pi / 180);
+
+      canvas.drawLine(Offset(x1, y1), Offset(x2, y2), externalLinePainter);
+    }
   }
 
   @override

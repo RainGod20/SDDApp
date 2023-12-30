@@ -1,5 +1,7 @@
 import 'package:clock_app_flutter/models/my_theme_provider.dart';
 import 'package:clock_app_flutter/screens/location_screen/location_screen.dart';
+import 'package:clock_app_flutter/screens/pomodoro_screen/pomodoro_timer_screen.dart';
+import 'package:clock_app_flutter/screens/pomodoro_screen/timerservice.dart';
 import 'package:clock_app_flutter/screens/stopwatch_screen/stopwatch_screen.dart';
 import 'package:clock_app_flutter/screens/timer_screen/timer_screen.dart';
 import 'package:clock_app_flutter/theme.dart';
@@ -9,9 +11,14 @@ import 'package:timezone/data/latest_all.dart' as tz;
 
 import 'screens/home_screen/home_screen.dart';
 
-void main() {
+void main() async {
   tz.initializeTimeZones();
-  runApp(const MyApp());
+  runApp(
+    ChangeNotifierProvider<timerService>(
+      create: (_) => timerService(),
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -33,6 +40,7 @@ class MyApp extends StatelessWidget {
             '/location': (context) => const LocationScreen(),
             '/timer': (context) => const TimerScreen(),
             '/stopwatch': (context) => const StopwatchScreen(),
+            '/pomodoro': (context) => const PomodoroTimerScreen(),
           },
         ),
       ),
