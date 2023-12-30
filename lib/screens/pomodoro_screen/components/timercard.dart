@@ -78,10 +78,6 @@ class TimerCard extends StatelessWidget {
                 child: Text(
                   DateFormat("ss").format(DateTime(
                       0, 0, 0, 0, 0, (provider.currentduration % 60).round().toInt())),
-                  // child: Text(
-                  //   (provider.currentduration < 10.0)
-                  //       ? "0${(provider.currentduration % 60).round()}"
-                  //       : (provider.currentduration % 60).round().toString(),
                   style: TextStyle(
                     color: renderColor(provider.currentState),
                     fontSize: 70,
